@@ -1,0 +1,24 @@
+<div class="container">
+
+    <div class="col-md-12">
+        {{#if article}}
+            {{#each article}}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{this.title}}</h4>
+                </div>
+                <div class="panel-body">
+                    <a href={{this.link}} target="_blank">{{this.link}}</a>
+                    <br><br>
+                    {{> notes }}
+                    <input class="form-control" id="noteText{{this._id}}" type="text" placeholder="Enter Notes Here">
+                    <br>
+                    <button type="button" class="btn btn-success addNote" data-id={{this._id}}>Add Note</button>
+                    <br>
+
+                </div>
+            </div>
+            {{/each}}
+        {{/if}}
+    </div>
+</div>
