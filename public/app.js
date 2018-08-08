@@ -3,11 +3,12 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+    $("#articles").prepend("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
   }
 });
 
 $("#scraper").on("click", function() {
+    $("#results").empty();
     $.ajax({
         method: "GET",
         url: "/scrape",
@@ -17,11 +18,21 @@ $("#scraper").on("click", function() {
     })
 });
 
-$(document).on("click", ".addNote", function() {
-  
+$("#clear").on("click", function() {
+    $("#results").empty();
+    $.ajax({
+        method: "DELETE",
+        url: "/articles/delete",
+    }).done(function(data) {
+        console.log(data)
+        window.location = "/"
+    })
+});
 
+$(document).on("click", ".addNote", function() {
 
   var thisId = $(this).attr("data-id");
+  console.log(thisId);
 
   $.ajax({
         method: "POST",
@@ -34,6 +45,6 @@ $(document).on("click", ".addNote", function() {
           console.log(data);
           // Empty the notes section
           $("#noteText" + thisId).val("");
-          window.location = "/saved"
+          window.location = "/"
       });
   });

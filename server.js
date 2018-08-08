@@ -124,7 +124,7 @@ app.post("/articles/:id", function(req, res) {
   // Create a new note and pass the req.body to the entry
   db.Note.create(req.body)
     .then(function(dbNote) {
-    
+
       return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
     })
     .then(function(dbArticle) {
@@ -153,6 +153,13 @@ app.post("/notes/:id", function(req, res) {
     });
 });
 
+app.delete("/articles/delete", function(req, res) {
+  db.Article.remove({})
+  .catch(function(err) {
+    // If an error occurred, send it to the client
+    res.json(err);
+  });
+})
 // Start the server
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");
